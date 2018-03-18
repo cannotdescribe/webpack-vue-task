@@ -1,0 +1,30 @@
+{
+  "name": "my-webpack-vue-demo",
+  "version": "0.0.1",
+  "private": true,
+  "author": "wanghui",
+  "scripts": {
+    "start": "node ./bin/www",
+    "dev": "webpack-dev-server --mode development"
+  },
+  "dependencies": {
+    "babel": "^6.23.0",
+    "babel-core": "^6.26.0",
+    "babel-loader": "^7.1.4",
+    "css-loader": "^0.28.11",
+    "glob": "^7.1.2",
+    "html-loader": "^0.5.5",
+    "html-webpack-plugin": "^3.0.6",
+    "jquery": "^3.3.1",
+    "path": "^0.12.7",
+    "stylus": "^0.54.5",
+    "stylus-loader": "^3.0.2",
+    "url-loader": "^1.0.1",
+    "vue": "^2.5.16",
+    "vue-loader": "^14.2.1",
+    "vue-template-compiler": "^2.5.16",
+    "webpack": "^4.1.1",
+    "webpack-cli": "^2.0.12",
+    "webpack-dev-server": "^3.1.1"
+  }
+}
