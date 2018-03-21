@@ -18,7 +18,7 @@ import App from "./app.vue"
 
 var body = $("body")[0];
 
-var v = new Vue({
-    // el: "body",
-    render: h=>h(App)
-}).$mount(body);
+// var v = new Vue({
+//     // el: "body",
+//     render: h=>h(App)
+// }).$mount(body);

@@ -17,17 +17,37 @@ function entries(){
     return map;
 }
 
+function htmlPlugins(){
+    var plugins = [];
+    let jsFiles = glob.sync(jsDir + "/*.{js, jsx}");
+    for(let i=0;i<jsFiles.length;i++){
+        let jsFile = jsFiles[i];
+        let jsName = jsFile.substring(jsFile.lastIndexOf('\/') + 1, jsFile.lastIndexOf('.'));
+        var htmlPlugin = new HTMLPlugin({
+            filename: path.join(__dirname, `/${jsName}.html`),
+            template:path.join(__dirname, './index.tpl.html')
+        });
+        plugins.push(htmlPlugin);
+    }
+}
+
+function resolve(relPath) {
+    return path.join(__dirname, relPath);
+}
+
 let config = {
     entry:entries(),
+    // entry: resolve("src/index.js"),
     output: {
-        // filename: "bundle.js",
-        path: path.join(__dirname, "dist")
+        filename: '[name].js',
+        path: resolve("dist")
     },
     plugins: [
-        new HTMLPlugin({
-            filename: path.join(__dirname, 'index.html'),
-        }),
-    ],
+
+    ].concat(htmlPlugins()),
+    // resolveLoader: {
+    //     moduleExtensions: ['-loader']
+    // },
     module:{
         rules:[
             {
@@ -41,9 +61,20 @@ let config = {
                 use:[{
                     loader: "html-loader"
                 }]
+            },
+            {
+                test: /\.js[x]?$/,
+                exclude: /node_modules/,
+                use: {
+                    loader: 'babel-loader',
+                    query: {
+                        presets: ['es2015', 'react']
+                    }
+                },
             }
         ]
-    }
+    },
+
 };
 
 module.exports=config;
