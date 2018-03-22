@@ -4,7 +4,7 @@ const glob = require("glob");
 
 const srcDir = path.join(__dirname, "./src");
 
-const jsDir = path.join(srcDir, "./js");
+const jsDir = path.join(srcDir, "./page");
 
 
 function resolve(relPath) {
@@ -17,10 +17,9 @@ const jsFiles = glob.sync(jsDir + "/*.{js, jsx}");
 
 jsFiles.forEach((jsFile) => {
     let jsName = jsFile.substring(jsFile.lastIndexOf('\/') + 1, jsFile.lastIndexOf('.'));
-    // console.log();
     let htmlPlugin = new HTMLPlugin({
         title: jsName,
-        filename: `${jsName}.html`,
+        filename: jsName,
         template: resolve('./index.tpl.html'),
         chunks: [jsName, 'common', 'vendors', 'manifest'],
         minify: {
@@ -30,41 +29,42 @@ jsFiles.forEach((jsFile) => {
     });
 
     htmlPlugins.push(htmlPlugin);
-    entryMap[jsName] = resolve(`./src/js/${jsName}.js`);
+    entryMap[jsName] = resolve(`./src/page/${jsName}.js`);
 });
 
 const config = {
-    // entry: entryMap,
+    entry: entryMap,
     // entry: resolve("src/index.js"),
 
-    entry: {
-        pageA: resolve('./src/page/pageA/pageA.js'),
-        pageB: resolve('./src/page/pageB/pageB.js')
-    },
+    // entry: {
+    //     pageA: resolve('./src/page/pageA.js'),
+    //     pageB: resolve('./src/page/pageB.js')
+    // },
     // entry: resolve('./src/js/pageA.js'),
 
     output: {
         filename: '[name].js',
-        path: __dirname + '/dist'
+        path: __dirname + '/dist',
+        // publicPath: "" // 类似项目名
     },
-    // plugins: [].concat(htmlPlugins),
+    plugins: [].concat(htmlPlugins),
     // resolveLoader: {
     //     moduleExtensions: ['-loader']
     // },
-    plugins:[
-        new HTMLPlugin({
-            title: "pageA",
-            filename: "pageA",
-            template: resolve('./index.tpl.html'),
-            chunks: ["pageA", 'common', 'vendors', 'manifest'],
-        }),
-        new HTMLPlugin({
-            title: "pageB",
-            filename: "pageB",
-            template: resolve('./index.tpl.html'),
-            chunks: ["pageB", 'common', 'vendors', 'manifest'],
-        })
-    ],
+    // plugins:[
+    //     new HTMLPlugin({
+    //         title: "pageA",
+    //         filename: "pageA",
+    //         template: resolve('./index.tpl.html'),
+    //         chunks: ["pageA", 'common', 'vendors', 'manifest'],
+    //     }),
+    //     new HTMLPlugin({
+    //         title: "pageB",
+    //         filename: "pageB",
+    //         template: resolve('./index.tpl.html'),
+    //         chunks: ["pageB", 'common', 'vendors', 'manifest'],
+    //     })
+    // ],
     module:{
         rules:[
             {
