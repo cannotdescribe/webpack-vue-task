@@ -86,7 +86,21 @@ const config = {
                         }
                     }
                 ]
-            }
+            },
+            {
+                test: /\.styl$/,
+                use: [
+                    "style-loader",
+                    "css-loader",
+                    {
+                        loader: "postcss-loader",
+                        options: {
+                            sourceMap: true,
+                        }
+                    },
+                    "stylus-loader"  //stylus 很好用的css预处理器  (可以研究一下)
+                ]
+            },
         ]
     },
 
