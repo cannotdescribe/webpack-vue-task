@@ -14,9 +14,7 @@ const $ = require("jquery");
 //
 //
 import Vue from "Vue"
-import App from "./app.vue"
 
-var body = $("body")[0];
 
 // var v = new Vue({
 //     // el: "body",
