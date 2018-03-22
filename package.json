@@ -5,7 +5,8 @@
   "author": "wanghui",
   "scripts": {
     "start": "node ./bin/www",
-    "dev": "webpack-dev-server --mode development"
+    "dev": "webpack-dev-server --mode development",
+    "ddd": "webpack --mode development"
   },
   "dependencies": {
     "babel": "^6.23.0",

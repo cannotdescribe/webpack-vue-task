@@ -6,48 +6,65 @@ const srcDir = path.join(__dirname, "./src");
 
 const jsDir = path.join(srcDir, "./js");
 
-function entries(){
-    let jsFiles = glob.sync(jsDir + "/*.{js, jsx}");
-    let map = {};
-    for(let i=0;i<jsFiles.length;i++){
-        let jsFile = jsFiles[i];
-        let jsName = jsFile.substring(jsFile.lastIndexOf('\/') + 1, jsFile.lastIndexOf('.'));
-        map[jsName] = jsFile;
-    }
-    return map;
-}
-
-function htmlPlugins(){
-    var plugins = [];
-    let jsFiles = glob.sync(jsDir + "/*.{js, jsx}");
-    for(let i=0;i<jsFiles.length;i++){
-        let jsFile = jsFiles[i];
-        let jsName = jsFile.substring(jsFile.lastIndexOf('\/') + 1, jsFile.lastIndexOf('.'));
-        var htmlPlugin = new HTMLPlugin({
-            filename: path.join(__dirname, `/${jsName}.html`),
-            template:path.join(__dirname, './index.tpl.html')
-        });
-        plugins.push(htmlPlugin);
-    }
-}
 
 function resolve(relPath) {
     return path.join(__dirname, relPath);
 }
 
-let config = {
-    entry:entries(),
+const entryMap = {};
+const htmlPlugins = [];
+const jsFiles = glob.sync(jsDir + "/*.{js, jsx}");
+
+jsFiles.forEach((jsFile) => {
+    let jsName = jsFile.substring(jsFile.lastIndexOf('\/') + 1, jsFile.lastIndexOf('.'));
+    // console.log();
+    let htmlPlugin = new HTMLPlugin({
+        title: jsName,
+        filename: `${jsName}.html`,
+        template: resolve('./index.tpl.html'),
+        chunks: [jsName, 'common', 'vendors', 'manifest'],
+        minify: {
+            removeComments: true,
+            collapseWhitespace: true
+        }
+    });
+
+    htmlPlugins.push(htmlPlugin);
+    entryMap[jsName] = resolve(`./src/js/${jsName}.js`);
+});
+
+const config = {
+    // entry: entryMap,
     // entry: resolve("src/index.js"),
+
+    entry: {
+        pageA: resolve('./src/page/pageA/pageA.js'),
+        pageB: resolve('./src/page/pageB/pageB.js')
+    },
+    // entry: resolve('./src/js/pageA.js'),
+
     output: {
         filename: '[name].js',
-        path: resolve("dist")
+        path: __dirname + '/dist'
     },
-    plugins: [
-
-    ].concat(htmlPlugins()),
+    // plugins: [].concat(htmlPlugins),
     // resolveLoader: {
     //     moduleExtensions: ['-loader']
     // },
+    plugins:[
+        new HTMLPlugin({
+            title: "pageA",
+            filename: "pageA",
+            template: resolve('./index.tpl.html'),
+            chunks: ["pageA", 'common', 'vendors', 'manifest'],
+        }),
+        new HTMLPlugin({
+            title: "pageB",
+            filename: "pageB",
+            template: resolve('./index.tpl.html'),
+            chunks: ["pageB", 'common', 'vendors', 'manifest'],
+        })
+    ],
     module:{
         rules:[
             {
