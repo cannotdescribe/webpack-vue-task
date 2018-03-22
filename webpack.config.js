@@ -33,13 +33,13 @@ jsFiles.forEach((jsFile) => {
 });
 
 const config = {
-    entry: entryMap,
+    // entry: entryMap,
     // entry: resolve("src/index.js"),
 
-    // entry: {
-    //     pageA: resolve('./src/page/pageA.js'),
-    //     pageB: resolve('./src/page/pageB.js')
-    // },
+    entry: {
+        pageA: resolve('./src/page/pageA.js'),  //输入所对应的绝对路径
+        pageB: resolve('./src/page/pageB.js')
+    },
     // entry: resolve('./src/js/pageA.js'),
 
     output: {
@@ -47,43 +47,43 @@ const config = {
         path: __dirname + '/dist',
         // publicPath: "" // 类似项目名
     },
-    plugins: [].concat(htmlPlugins),
-    // resolveLoader: {
-    //     moduleExtensions: ['-loader']
-    // },
-    // plugins:[
-    //     new HTMLPlugin({
-    //         title: "pageA",
-    //         filename: "pageA",
-    //         template: resolve('./index.tpl.html'),
-    //         chunks: ["pageA", 'common', 'vendors', 'manifest'],
-    //     }),
-    //     new HTMLPlugin({
-    //         title: "pageB",
-    //         filename: "pageB",
-    //         template: resolve('./index.tpl.html'),
-    //         chunks: ["pageB", 'common', 'vendors', 'manifest'],
-    //     })
-    // ],
+    // plugins: [].concat(htmlPlugins),
+    resolveLoader: {
+        moduleExtensions: ['-loader']
+    },
+    plugins:[
+        new HTMLPlugin({
+            title: "pageA", //title名字
+            filename: "pageA", //输出的文件名
+            template: resolve('./index.tpl.html'), //模板所对的绝对路径位置
+            chunks: ["pageA", 'common', 'vendors', 'manifest'], //那些js需要被加入进来
+        }),
+        new HTMLPlugin({
+            title: "pageB",
+            filename: "pageB",
+            template: resolve('./index.tpl.html'),
+            chunks: ["pageB", 'common', 'vendors', 'manifest'],
+        })
+    ],
     module:{
         rules:[
             {
                 test: /\.vue/,
                 use:[{
-                    loader: "vue-loader"
+                    loader: "vue"
                 }]
             },
             {
                 test: /\.html/,
                 use:[{
-                    loader: "html-loader"
+                    loader: "html"
                 }]
             },
             {
                 test: /\.js[x]?$/,
                 exclude: /node_modules/,
                 use: {
-                    loader: 'babel-loader',
+                    loader: 'babel',
                     query: {
                         presets: ['es2015', 'react']
                     }
