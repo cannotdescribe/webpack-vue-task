@@ -38,7 +38,7 @@ const config = {
     output: {
         filename: '[name].js',
         path: __dirname + '/dist',
-        // publicPath: "" // 类似项目名
+        // publicPath: "/ecm/" // 类似项目名
     },
     plugins: [].concat(htmlPlugins),
     // resolveLoader: {

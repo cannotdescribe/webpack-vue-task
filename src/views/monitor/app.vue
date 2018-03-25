@@ -1,18 +1,22 @@
 <template>
-    <el-container>
-        <el-header>
-            <!--<Nav></Nav>-->
-        </el-header>
+    <div class="wrapper">
         <el-container>
-            <el-aside width="200px">
-                <!--<LeftTree></LeftTree>-->
-            </el-aside>
+            <el-header>
+                <!--<Nav></Nav>-->
+            </el-header>
             <el-container>
-                <el-main>Main</el-main>
-                <el-footer>Footer</el-footer>
+                <el-aside width="200px">
+                    <!--<LeftTree></LeftTree>-->
+                </el-aside>
+                <el-container>
+                    <el-main>
+                        <img src="../../assets/images/twilight.gif"/>
+                    </el-main>
+                    <el-footer>Footer</el-footer>
+                </el-container>
             </el-container>
         </el-container>
-    </el-container>
+    </div>
 </template>
 
 <script>
@@ -29,6 +33,11 @@
 </script>
 
 <style>
+    .wrapper{
+        width:100%;
+        height:100%;
+        overflow: hidden;
+    }
     .el-header, .el-footer {
         background-color: #B3C0D1;
         color: #333;
@@ -61,5 +70,8 @@
 
     .el-container:nth-child(7) .el-aside {
         line-height: 320px;
+    }
+    .ads{
+        background-image: url("../../assets/images/twilight.gif");
     }
 </style>
